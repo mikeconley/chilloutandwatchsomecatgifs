@@ -15,7 +15,17 @@ $.ajax({
   dataType: 'text'
 }).done(function (data, textStatus) {
   console.log(textStatus, data);
-  $('html').css('background-image', 'url("http://i.imgur.com/4PD98.gif")');
+  // Split on newlines
+  var result = data.text.split('\n');
+  // Trim each line, and ignore commented out ones.
+  result = result.map(function(aUrl)) {
+    return aUrl.trim();
+  }).filter(function(aUrl) {
+    return !aUrl.startsWith('#') && (x !== '');
+  });
+  
+  var selectedUrl = result[Math.floor(Math.random() * result.length)];
+  $('html').css('background-image', 'url("' + selectedUrl + '")');
   console.log($('html').css('background-image'));
 }).fail(function (jqXHR, textStatus, errorThrown) {
   console.log(textStatus, errorThrown);
